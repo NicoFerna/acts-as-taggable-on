@@ -108,16 +108,19 @@ module ActsAsTaggableOn::Taggable
 
           # Find all taggings that belong to the taggable (self), are owned by the owner,
           # have the correct context, and are removed from the list.
-          if old_tags.present?
-            old_taggings = ActsAsTaggableOn::Tagging.where(:taggable_id => id, :taggable_type => self.class.base_class.to_s,
-                                                            :tagger_type => owner.class.base_class.to_s, :tagger_id => owner.id,
-                                                            :tag_id => old_tags, :context => context)
-          end
+          
+          # This part is now deactivated as we do not create textual tags but need to have the ability to add and remov tags one by one.
+          
+          # if old_tags.present?
+          #   old_taggings = ActsAsTaggableOn::Tagging.where(:taggable_id => id, :taggable_type => self.class.base_class.to_s,
+          #                                                   :tagger_type => owner.class.base_class.to_s, :tagger_id => owner.id,
+          #                                                   :tag_id => old_tags, :context => context)
+          # end
 
-          # Destroy old taggings:
-          if old_taggings.present?
-            ActsAsTaggableOn::Tagging.destroy_all(:id => old_taggings.map(&:id))
-          end
+          # # Destroy old taggings:
+          # if old_taggings.present?
+          #   ActsAsTaggableOn::Tagging.destroy_all(:id => old_taggings.map(&:id))
+          # end
 
           # Create new taggings:
           new_tags.each do |tag|
